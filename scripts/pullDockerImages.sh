@@ -17,9 +17,9 @@ echo "Fetching images from Nexus"
 NEXUS_URL=nexus3.hyperledger.org:10001
 ORG_NAME="hyperledger/fabric"
 ARCH=$(go env GOARCH)
-LATEST_TAG=$ARCH-latest
+LATEST_TAG=${LATEST_TAG:=$ARCH-latest}
 echo "---------> REPO:" $REPO
-echo "---------> LATEST TAG:" $LATEST_TAG
+echo "---------> LATEST_TAG:" $LATEST_TAG
 
 
 dockerTag() {
@@ -74,7 +74,7 @@ fabric-sdk-node)
   dockerTag peer orderer ccenv tools ca ca-tools ca-peer ca-orderer ca-fvt javaenv
   ;;
 fabric-sdk-java)
-  echo "Pull all images except fabric-sdk-java"
+  echo "Pull all images except fabric-sdk-java"i
   dockerTag peer orderer ccenv tools ca ca-tools ca-peer ca-orderer ca-fvt javaenv
   ;;
 fabric-javaenv)
