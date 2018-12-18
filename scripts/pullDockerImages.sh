@@ -81,9 +81,9 @@ echo
 
 # Set Nexus Snapshot URL
 # Get the arch value
-ARCH=$(dpkg --print-architecture)
-if [ "$ARCH" = "amd64" ]; then
-    ARCH=linux-amd64
+MARCH=$(dpkg --print-architecture)
+if [ "$MARCH" = "amd64" ]; then
+    MARCH=linux-amd64
 fi
 echo "MARCH: $MARCH"
 RELEASE_VERSION=${RELEASE_VERSION:=1.3.1-stable}
