@@ -80,8 +80,14 @@ fi
 echo
 
 # Set Nexus Snapshot URL
+# Get the arch value
+ARCH=$(dpkg --print-architecture)
+if [ "$ARCH" = "amd64" ]; then
+    ARCH=linux-amd64
+fi
+echo "MARCH: $MARCH"
 RELEASE_VERSION=${RELEASE_VERSION:=1.3.1-stable}
-NEXUS_URL=https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$RELEASE_VERSION/$ARCH.$RELEASE_VERSION-SNAPSHOT
+NEXUS_URL=https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$RELEASE_VERSION/$MARCH.$RELEASE_VERSION-SNAPSHOT
 
 # Download the maven-metadata.xml file
 curl $NEXUS_URL/maven-metadata.xml > maven-metadata.xml
