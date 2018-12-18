@@ -101,4 +101,4 @@ else
     rm -f maven-metadata.xml
     echo "Finished pulling fabric..."
     export PATH=$WD/bin:$PATH
-    echo
+    echo "---"
