@@ -91,7 +91,7 @@ else
     # Set latest tar file to the VERSION
     VERSION=$(grep value maven-metadata.xml | sort -u | cut -d "<" -f2|cut -d ">" -f2)
     echo "Version: $VERSION..."
-
+fi
     # Download tar.gz file and extract it
     mkdir -p $WD/bin
     cd $WD
@@ -101,4 +101,4 @@ else
     rm -f maven-metadata.xml
     echo "Finished pulling fabric..."
     export PATH=$WD/bin:$PATH
-    echo "---"
+echo
