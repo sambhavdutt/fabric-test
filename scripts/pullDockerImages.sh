@@ -79,15 +79,25 @@ else
 fi
 echo
 
-echo "======== PULL FABRIC BINARIES ========"
-echo "------------> RELEASE_COMMIT:" $RELEASE_COMMIT
-RELEASE_COMMIT=${RELEASE_COMMIT:0:7}
-OS_VER=$(uname -s|tr '[:upper:]' '[:lower:]')
-echo
-rm -rf .build && mkdir -p .build && cd .build
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$STABLE_VERSION/$OS_VER-$ARCH.$STABLE_VERSION-$RELEASE_COMMIT/hyperledger-fabric-$STABLE_VERSION-$OS_VER-$ARCH.$STABLE_VERSION-$RELEASE_COMMIT.tar.gz | tar xz
-export PATH=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/.build/bin:$PATH
-echo "Binaries fetched from Nexus"
-echo
-ls -l bin/
-echo
+# Set Nexus Snapshot URL
+NEXUS_URL=https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$RELEASE_VERSION/$ARCH.$RELEASE_VERSION-SNAPSHOT
+
+# Download the maven-metadata.xml file
+curl $NEXUS_URL/maven-metadata.xml > maven-metadata.xml
+if grep -q "not found in local storage of repository" "maven-metadata.xml"; then
+    echo  "FAILED: Unable to download from $NEXUS_URL"
+else
+    # Set latest tar file to the VERSION
+    VERSION=$(grep value maven-metadata.xml | sort -u | cut -d "<" -f2|cut -d ">" -f2)
+    echo "Version: $VERSION..."
+
+    # Download tar.gz file and extract it
+    mkdir -p $WD/bin
+    cd $WD
+    curl $NEXUS_URL/hyperledger-fabric-$RELEASE_VERSION-$VERSION.tar.gz | tar xz
+    rm hyperledger-fabric-*.tar.gz
+    cd -
+    rm -f maven-metadata.xml
+    echo "Finished pulling fabric..."
+    export PATH=$WD/bin:$PATH
+    echo
