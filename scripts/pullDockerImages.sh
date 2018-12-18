@@ -80,6 +80,7 @@ fi
 echo
 
 # Set Nexus Snapshot URL
+RELEASE_VERSION=${RELEASE_VERSION:=1.3.1-stable}
 NEXUS_URL=https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$RELEASE_VERSION/$ARCH.$RELEASE_VERSION-SNAPSHOT
 
 # Download the maven-metadata.xml file
