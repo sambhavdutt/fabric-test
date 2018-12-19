@@ -69,6 +69,10 @@ echo "MARCH: $MARCH"
 RELEASE_VERSION=${RELEASE_VERSION:=1.2.1-stable}
 NEXUS_URL=https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$RELEASE_VERSION/$MARCH.$RELEASE_VERSION-SNAPSHOT
 
+if [ -z $WD ]; then
+   WD=fabric/.build
+fi
+
 # Download the maven-metadata.xml file
 curl $NEXUS_URL/maven-metadata.xml > maven-metadata.xml
 if grep -q "not found in local storage of repository" "maven-metadata.xml"; then
