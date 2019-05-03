@@ -76,6 +76,9 @@ pre-setup:
 	@bash $(PRE_SETUP)
 #	@bash $(INSTALL_BEHAVE_DEPS)
 
+.PHONY: pre-req
+pre-req: git-init git-latest clean pre-setup
+
 .PHONY: ci-daily
 ci-daily: fabric pull-images pull-binaries pull-thirdparty-images build-sdk-wrapper daily-tests
 
@@ -211,7 +214,7 @@ svt-daily-ote-tests: fabric pull-images pull-binaries pull-thirdparty-images
 	cd $(HYPERLEDGER_DIR)/fabric-test/regression/daily && ./runOteTestSuite.sh
 
 .PHONY: svt-daily-lte-tests
-svt-daily-lte-tests:  fabric pull-binaries pull-thirdparty-images
+svt-daily-lte-tests: pre-req fabric pull-binaries pull-thirdparty-images
 	cd $(HYPERLEDGER_DIR)/fabric-test/regression/daily && ./runLteTestSuite.sh
 
 .PHONY: svt-daily-ca-tests
